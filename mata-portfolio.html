@@ -1,0 +1,1241 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#000000">
+<meta name="description" content="MATA — Backend Developer & Security Specialist. Python, PHP, Linux, Bot Development.">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https://ui-avatars.com https://uploadkon.ir; media-src https://uploadkon.ir; connect-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self';">
+<title>MATA | Backend & Security</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🛡️</text></svg>">
+<!-- آیکون‌ها اکنون به‌صورت SVG داخلی (بدون نیاز به اینترنت/CDN) بارگذاری می‌شوند -->
+<style>.icon{width:1em;height:1em;display:inline-block;vertical-align:-.15em;fill:none;stroke:currentColor;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;}</style>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;700&family=Vazirmatn:wght@300;400;500;600;700&display=swap');
+
+:root{
+  --bg-color:#000;
+  --glass-bg:rgba(30,30,35,.6);
+  --glass-border:rgba(255,255,255,.1);
+  --text-primary:#fff;
+  --text-secondary:#a1a1aa;
+  --accent:#3b82f6;
+  --accent-2:#8b5cf6;
+  --term-bg:rgba(10,10,12,.97);
+  --term-text:#22c55e;
+  --mesh-opacity:.6;
+  --radius:20px;
+  --font-ui:'Inter','Vazirmatn',-apple-system,BlinkMacSystemFont,sans-serif;
+  --font-mono:'JetBrains Mono',monospace;
+}
+body.theme-navy{--bg-color:#020617;--glass-bg:rgba(15,23,42,.75);--glass-border:rgba(56,189,248,.18);--accent:#38bdf8;--accent-2:#818cf8;--mesh-opacity:.2;}
+body.theme-black{--bg-color:#000;--glass-bg:rgba(10,10,10,.9);--glass-border:rgba(255,255,255,.05);--mesh-opacity:0;}
+body.theme-emerald{--bg-color:#021410;--glass-bg:rgba(6,30,25,.7);--glass-border:rgba(16,185,129,.18);--accent:#10b981;--accent-2:#34d399;--mesh-opacity:.25;}
+
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;-webkit-user-select:none;user-select:none;-webkit-user-drag:none;}
+input,textarea{-webkit-user-select:text;user-select:text;}
+
+html,body{position:fixed;width:100%;height:100%;overflow:hidden;background:var(--bg-color);transition:background-color .5s ease;}
+body{font-family:var(--font-ui);color:var(--text-primary);display:flex;justify-content:center;align-items:center;perspective:1200px;}
+body[dir="rtl"]{direction:rtl;}
+
+.mesh-bg{position:absolute;inset:0;z-index:-1;overflow:hidden;opacity:var(--mesh-opacity);transition:opacity .5s;}
+.mesh-blob{position:absolute;filter:blur(90px);border-radius:50%;animation:float 20s infinite alternate cubic-bezier(.4,0,.2,1);}
+.blob-1{top:-10%;left:-10%;width:50vw;height:50vw;background:#4c1d95;animation-delay:0s;}
+.blob-2{bottom:-10%;right:-10%;width:60vw;height:60vw;background:#1e3a8a;animation-delay:-5s;}
+.blob-3{top:40%;left:60%;width:40vw;height:40vw;background:#064e3b;animation-delay:-10s;}
+body.theme-navy .blob-1{background:#1e3a8a;}
+body.theme-navy .blob-2{background:#0f172a;}
+body.theme-navy .blob-3{background:#082f49;}
+body.theme-emerald .blob-1{background:#065f46;}
+body.theme-emerald .blob-2{background:#064e3b;}
+body.theme-emerald .blob-3{background:#022c22;}
+@keyframes float{0%{transform:translate(0,0) scale(1);}100%{transform:translate(20%,20%) scale(1.2);}}
+
+.app-wrapper{width:92%;max-width:420px;height:85vh;max-height:820px;position:relative;transform-style:preserve-3d;will-change:transform;}
+
+.app-container{width:100%;height:100%;position:absolute;inset:0;
+  background:var(--glass-bg);backdrop-filter:blur(40px) saturate(180%);-webkit-backdrop-filter:blur(40px) saturate(180%);
+  border-radius:40px;border:1px solid var(--glass-border);
+  box-shadow:0 30px 60px rgba(0,0,0,.5),inset 0 1px 0 rgba(255,255,255,.05);
+  overflow:hidden;display:flex;flex-direction:column;
+  animation:slideUp .8s cubic-bezier(.16,1,.3,1) forwards;transition:background .5s,border-color .5s;}
+@keyframes slideUp{from{opacity:0;transform:translateY(40px);}to{opacity:1;transform:translateY(0);}}
+
+.top-actions{position:absolute;top:calc(22px + env(safe-area-inset-top,0px));width:100%;padding:0 22px;display:flex;justify-content:space-between;align-items:center;z-index:50;gap:8px;}
+.icon-btn{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.15);color:#fff;width:38px;height:38px;border-radius:13px;display:flex;justify-content:center;align-items:center;font-size:18px;cursor:pointer;transition:all .25s;}
+.icon-btn:hover{background:rgba(255,255,255,.14);}
+.icon-btn:active{transform:scale(.92);}
+.icon-btn.lang-btn{font-size:11px;font-weight:700;letter-spacing:.5px;font-family:var(--font-mono);}
+
+.music-pill{background:rgba(0,0,0,.5);border:1px solid rgba(255,255,255,.1);border-radius:100px;padding:6px 12px;display:flex;align-items:center;gap:8px;cursor:pointer;transition:.3s;flex:1;max-width:160px;justify-content:center;}
+.music-pill:active{transform:scale(.95);}
+.eq-bars{display:flex;gap:2px;height:12px;align-items:flex-end;}
+.eq-bar{width:3px;background:var(--text-primary);border-radius:2px;}
+.music-pill.playing .eq-bar{animation:eqAnim .5s infinite alternate ease-in-out;}
+.music-pill.playing .eq-bar:nth-child(2){animation-delay:.2s;}
+.music-pill.playing .eq-bar:nth-child(3){animation-delay:.4s;}
+@keyframes eqAnim{0%{height:3px;}100%{height:12px;}}
+.track-name{font-size:10px;font-weight:600;color:#fff;max-width:70px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+
+.profile-header{padding:78px 20px 12px;text-align:center;position:relative;}
+.avatar-container{width:88px;height:88px;margin:0 auto 12px;position:relative;}
+.avatar-container::before{content:'';position:absolute;inset:-4px;border-radius:28px;background:linear-gradient(135deg,var(--accent),var(--accent-2));opacity:.5;z-index:-1;filter:blur(10px);}
+.avatar{width:100%;height:100%;border-radius:25px;object-fit:cover;border:2px solid rgba(255,255,255,.12);pointer-events:none;}
+.avatar-fallback{position:absolute;inset:0;color:#fff;}
+.name{font-size:22px;font-weight:700;letter-spacing:-.5px;margin-bottom:6px;}
+.name .fa-name{font-size:16px;color:var(--text-secondary);font-weight:500;display:block;margin-top:2px;}
+.role{font-size:12px;color:var(--accent);font-weight:600;margin-bottom:10px;letter-spacing:.3px;}
+.live-status{display:inline-flex;align-items:center;background:rgba(0,0,0,.4);padding:6px 12px;border-radius:100px;font-size:11px;font-weight:500;border:1px solid rgba(255,255,255,.08);gap:6px;}
+.dot{width:7px;height:7px;background:#22c55e;border-radius:50%;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;transform:scale(1);}50%{opacity:.5;transform:scale(.8);}}
+.time-text{color:#a1a1aa;padding-inline-start:8px;border-inline-start:1px solid rgba(255,255,255,.1);font-variant-numeric:tabular-nums;}
+
+.availability{margin:12px auto 0;max-width:280px;background:linear-gradient(135deg,rgba(34,197,94,.1),rgba(59,130,246,.1));border:1px solid rgba(34,197,94,.25);border-radius:14px;padding:8px 14px;font-size:11px;font-weight:500;display:flex;align-items:center;gap:8px;color:#86efac;}
+.availability i{font-size:14px;}
+
+.content-scroll{flex:1;overflow-y:auto;overflow-x:hidden;padding:0 22px 110px;scrollbar-width:none;-webkit-overflow-scrolling:touch;touch-action:pan-y;}
+.content-scroll::-webkit-scrollbar{display:none;}
+.tab-content{display:none;}
+.tab-content.active{display:block;animation:fadeIn .4s ease forwards;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+
+.section-title{font-size:12px;text-transform:uppercase;letter-spacing:1.2px;font-weight:700;margin:22px 0 12px;color:var(--text-secondary);padding-inline-start:4px;display:flex;align-items:center;gap:8px;}
+.section-title:first-child{margin-top:6px;}
+.section-title i{font-size:14px;color:var(--accent);}
+.card-box{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:var(--radius);padding:16px;}
+p{color:#d4d4d8;font-size:13px;line-height:1.65;margin-bottom:8px;}
+p:last-child{margin-bottom:0;}
+p .hl{color:#fff;font-weight:600;}
+
+.skill-row{margin-bottom:12px;}
+.skill-row:last-child{margin-bottom:0;}
+.skill-head{display:flex;justify-content:space-between;font-size:12px;font-weight:600;margin-bottom:6px;}
+.skill-head .pct{font-family:var(--font-mono);color:var(--accent);font-size:11px;}
+.skill-bar{height:6px;background:rgba(255,255,255,.06);border-radius:100px;overflow:hidden;}
+.skill-fill{height:100%;border-radius:100px;background:linear-gradient(90deg,var(--accent),var(--accent-2));width:0;transition:width 1.2s cubic-bezier(.16,1,.3,1);}
+
+.projects-list{display:flex;flex-direction:column;gap:12px;}
+.project-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:var(--radius);padding:16px;transition:.25s;position:relative;overflow:hidden;}
+.project-card:active{transform:scale(.98);background:rgba(255,255,255,.06);}
+.project-card::before{content:'';position:absolute;top:0;left:0;width:3px;height:100%;background:linear-gradient(180deg,var(--accent),var(--accent-2));}
+.project-head{display:flex;align-items:center;gap:12px;margin-bottom:8px;}
+.project-icon{width:38px;height:38px;border-radius:12px;background:rgba(59,130,246,.12);display:flex;align-items:center;justify-content:center;font-size:20px;color:var(--accent);flex-shrink:0;}
+.project-title{font-size:14px;font-weight:700;}
+.project-sub{font-size:10px;color:var(--text-secondary);margin-top:2px;font-family:var(--font-mono);}
+.project-desc{font-size:12px;color:#a1a1aa;line-height:1.5;margin-bottom:10px;}
+.project-tags{display:flex;flex-wrap:wrap;gap:6px;}
+.tag{font-size:10px;padding:3px 9px;border-radius:8px;background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.06);color:#d4d4d8;font-weight:500;}
+
+.reviews-list{display:flex;flex-direction:column;gap:12px;margin-bottom:14px;}
+.review-card{background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);border-radius:var(--radius);padding:14px;}
+.review-head{display:flex;align-items:center;gap:10px;margin-bottom:8px;}
+.review-avatar{width:36px;height:36px;border-radius:50%;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;color:#fff;flex-shrink:0;}
+.review-meta{flex:1;min-width:0;}
+.review-name{font-size:13px;font-weight:600;}
+.review-role{font-size:10px;color:var(--text-secondary);}
+.review-stars{display:flex;gap:2px;color:#fbbf24;font-size:12px;margin-bottom:6px;}
+.review-text{font-size:12px;color:#d4d4d8;line-height:1.55;}
+.review-date{font-size:10px;color:#71717a;margin-top:8px;font-family:var(--font-mono);}
+
+.review-btn{width:100%;padding:14px;border-radius:14px;background:rgba(59,130,246,.12);border:1px dashed rgba(59,130,246,.4);color:var(--accent);font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;transition:.2s;font-family:var(--font-ui);}
+.review-btn:active{transform:scale(.97);background:rgba(59,130,246,.2);}
+
+.actions-list{display:flex;flex-direction:column;gap:10px;}
+.action-btn{display:flex;align-items:center;justify-content:space-between;background:rgba(255,255,255,.03);border:1px solid rgba(255,255,255,.06);padding:14px 16px;border-radius:var(--radius);text-decoration:none;color:var(--text-primary);transition:.2s;cursor:pointer;font-family:var(--font-ui);width:100%;text-align:start;}
+.action-btn:active{transform:scale(.97);background:rgba(255,255,255,.07);}
+.action-left{display:flex;align-items:center;gap:14px;}
+.action-left i.brand{font-size:22px;}
+.action-title{font-size:13px;font-weight:600;}
+.action-sub{font-size:11px;color:var(--text-secondary);margin-top:2px;font-family:var(--font-mono);}
+.ig-gradient{background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;color:transparent;}
+.util-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-top:14px;}
+.util-btn{background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.08);border-radius:14px;padding:12px 6px;color:#d4d4d8;font-size:10px;font-weight:600;cursor:pointer;display:flex;flex-direction:column;align-items:center;gap:6px;transition:.2s;font-family:var(--font-ui);}
+.util-btn:active{transform:scale(.94);background:rgba(255,255,255,.1);}
+.util-btn i{font-size:18px;color:var(--accent);}
+
+.dock{position:absolute;bottom:calc(18px + env(safe-area-inset-bottom,0px));left:50%;transform:translateX(-50%);background:rgba(20,20,25,.8);backdrop-filter:blur(30px) saturate(200%);-webkit-backdrop-filter:blur(30px) saturate(200%);padding:7px 12px;border-radius:30px;display:flex;gap:6px;border:1px solid rgba(255,255,255,.1);box-shadow:0 10px 30px rgba(0,0,0,.5);z-index:40;}
+.dock-btn{background:transparent;border:none;color:#71717a;width:46px;height:46px;border-radius:18px;display:flex;align-items:center;justify-content:center;font-size:20px;cursor:pointer;transition:.25s;position:relative;}
+.dock-btn:hover{color:#a1a1aa;}
+.dock-btn.active{color:#fff;background:rgba(255,255,255,.1);}
+.dock-btn::after{content:'';position:absolute;bottom:4px;width:4px;height:4px;border-radius:50%;background:var(--accent);opacity:0;transition:.3s;transform:translateY(5px);}
+.dock-btn.active::after{opacity:1;transform:translateY(0);}
+
+.sub-screen{position:absolute;inset:0;background:var(--glass-bg);backdrop-filter:blur(40px) saturate(180%);-webkit-backdrop-filter:blur(40px) saturate(180%);z-index:90;transform:translateX(100%);transition:transform .4s cubic-bezier(.16,1,.3,1);display:flex;flex-direction:column;}
+body[dir="rtl"] .sub-screen{transform:translateX(-100%);}
+.sub-screen.active{transform:translateX(0);}
+.sub-header{padding:28px 18px 14px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.05);background:rgba(0,0,0,.2);}
+.back-btn{background:none;border:none;color:var(--accent);font-size:13px;font-weight:600;display:flex;align-items:center;gap:4px;cursor:pointer;transition:.2s;padding:6px;font-family:var(--font-ui);}
+.back-btn:active{opacity:.5;}
+.sub-title{font-size:15px;font-weight:600;color:#fff;}
+.sub-spacer{width:60px;}
+.sub-content{flex:1;overflow-y:auto;padding:18px;scrollbar-width:none;touch-action:pan-y;}
+.sub-content::-webkit-scrollbar{display:none;}
+
+.server-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
+.metric-card{background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.05);border-radius:16px;padding:14px;display:flex;flex-direction:column;align-items:center;}
+.circle-chart{width:70px;height:70px;border-radius:50%;background:conic-gradient(var(--accent) 0%,rgba(255,255,255,.05) 0%);display:flex;align-items:center;justify-content:center;margin-bottom:8px;transition:background .5s;}
+.circle-inner{width:56px;height:56px;background:var(--bg-color);border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;}
+.circle-val{font-family:var(--font-mono);font-size:13px;font-weight:700;color:#fff;}
+.circle-label{font-size:10px;color:var(--text-secondary);margin-top:2px;letter-spacing:.5px;}
+.stat-row{display:flex;justify-content:space-between;align-items:center;padding:12px 14px;background:rgba(0,0,0,.3);border-radius:12px;margin-bottom:8px;font-size:12px;}
+.stat-name{display:flex;align-items:center;gap:8px;font-weight:500;}
+.stat-val{font-family:var(--font-mono);font-size:11px;color:#fff;}
+.ping-dot{width:6px;height:6px;background:#10b981;border-radius:50%;box-shadow:0 0 8px #10b981;animation:blinkFast 1s infinite;}
+@keyframes blinkFast{0%,100%{opacity:1;}50%{opacity:.3;}}
+
+.chat-container{background:rgba(0,0,0,.4);border:1px solid rgba(255,255,255,.05);border-radius:18px;height:420px;display:flex;flex-direction:column;overflow:hidden;}
+.chat-history{flex:1;padding:14px;overflow-y:auto;display:flex;flex-direction:column;gap:10px;scrollbar-width:none;touch-action:pan-y;}
+.chat-history::-webkit-scrollbar{display:none;}
+.msg{max-width:85%;padding:10px 13px;border-radius:16px;font-size:12.5px;line-height:1.5;word-wrap:break-word;}
+.msg-bot{background:rgba(255,255,255,.08);color:#e4e4e7;align-self:flex-start;border-bottom-left-radius:4px;}
+body[dir="rtl"] .msg-bot{align-self:flex-start;border-bottom-left-radius:16px;border-bottom-right-radius:4px;}
+.msg-user{background:var(--accent);color:#fff;align-self:flex-end;border-bottom-right-radius:4px;}
+body[dir="rtl"] .msg-user{align-self:flex-end;border-bottom-right-radius:16px;border-bottom-left-radius:4px;}
+.typing{display:flex;gap:4px;align-items:center;padding:12px 14px;}
+.typing span{width:6px;height:6px;background:#a1a1aa;border-radius:50%;animation:typingBounce 1.2s infinite;}
+.typing span:nth-child(2){animation-delay:.15s;}
+.typing span:nth-child(3){animation-delay:.3s;}
+@keyframes typingBounce{0%,60%,100%{transform:translateY(0);opacity:.5;}30%{transform:translateY(-5px);opacity:1;}}
+.chat-input-area{display:flex;padding:8px;background:rgba(255,255,255,.02);border-top:1px solid rgba(255,255,255,.05);gap:6px;align-items:center;}
+.chat-input{flex:1;background:transparent;border:none;color:#fff;font-family:var(--font-ui);font-size:16px;outline:none;padding:8px 10px;}
+.chat-input::placeholder{color:#71717a;}
+.chat-send-btn{background:var(--accent);border:none;width:36px;height:36px;border-radius:50%;color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer;transition:.2s;flex-shrink:0;}
+.chat-send-btn:active{transform:scale(.9);}
+
+.terminal-overlay{position:absolute;inset:0;background:var(--term-bg);border-radius:40px;z-index:100;display:flex;flex-direction:column;opacity:0;pointer-events:none;transition:all .4s cubic-bezier(.16,1,.3,1);transform:scale(.95);}
+.terminal-overlay.active{opacity:1;pointer-events:auto;transform:scale(1);}
+.term-top-bar{padding:18px 20px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid rgba(255,255,255,.05);background:rgba(0,0,0,.5);}
+.mac-btns{display:flex;gap:8px;}
+.mac-btn{width:13px;height:13px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:bold;color:transparent;transition:.2s;font-family:var(--font-mono);}
+.mac-btn:hover{color:rgba(0,0,0,.6);}
+.mac-close{background:#ef4444;}
+.mac-min{background:#f59e0b;}
+.mac-max{background:#10b981;}
+.term-close-explicit{background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3);color:#ef4444;padding:4px 12px;border-radius:8px;font-size:10px;font-weight:700;cursor:pointer;font-family:var(--font-mono);letter-spacing:.5px;}
+.term-body{flex:1;padding:18px;font-family:var(--font-mono);font-size:12.5px;color:var(--term-text);overflow-y:auto;text-shadow:0 0 5px rgba(34,197,94,.4);line-height:1.6;scrollbar-width:none;touch-action:pan-y;}
+.term-body::-webkit-scrollbar{display:none;}
+.term-line{margin-bottom:6px;white-space:pre-wrap;word-break:break-word;}
+.term-prompt{display:flex;gap:0;align-items:baseline;flex-wrap:wrap;}
+.term-input{background:transparent;border:none;outline:none;color:var(--term-text);font-family:var(--font-mono);font-size:12.5px;flex:1;caret-color:var(--term-text);text-shadow:0 0 5px rgba(34,197,94,.4);min-width:100px;padding:0;}
+.cursor{display:inline-block;width:8px;height:14px;background:var(--term-text);animation:blink 1s step-end infinite;vertical-align:middle;}
+@keyframes blink{50%{opacity:0;}}
+
+.modal-overlay{position:absolute;inset:0;background:rgba(0,0,0,.7);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);z-index:110;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;pointer-events:none;transition:.3s;}
+.modal-overlay.active{opacity:1;pointer-events:auto;}
+.modal{background:var(--glass-bg);backdrop-filter:blur(30px) saturate(180%);-webkit-backdrop-filter:blur(30px) saturate(180%);border:1px solid var(--glass-border);border-radius:24px;padding:20px;width:100%;max-width:360px;max-height:85vh;overflow-y:auto;transform:scale(.9);transition:.3s;scrollbar-width:none;}
+.modal::-webkit-scrollbar{display:none;}
+.modal-overlay.active .modal{transform:scale(1);}
+.modal-title{font-size:16px;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px;}
+.modal-title i{color:var(--accent);}
+.form-group{margin-bottom:12px;}
+.form-label{font-size:11px;font-weight:600;color:var(--text-secondary);margin-bottom:5px;display:block;text-transform:uppercase;letter-spacing:.5px;}
+.form-input,.form-textarea{width:100%;background:rgba(0,0,0,.3);border:1px solid rgba(255,255,255,.08);border-radius:12px;padding:11px 13px;color:#fff;font-family:var(--font-ui);font-size:16px;outline:none;transition:.2s;}
+.form-input:focus,.form-textarea:focus{border-color:var(--accent);background:rgba(0,0,0,.5);}
+.form-textarea{resize:none;min-height:80px;}
+.rating-input{display:flex;gap:6px;font-size:26px;color:#52525b;cursor:pointer;}
+.rating-input i{cursor:pointer;transition:.2s;}
+.rating-input i.active,.rating-input i:hover{color:#fbbf24;}
+.form-actions{display:flex;gap:8px;margin-top:16px;}
+.btn{padding:11px 16px;border-radius:12px;font-size:13px;font-weight:600;cursor:pointer;border:none;font-family:var(--font-ui);transition:.2s;flex:1;}
+.btn-cancel{background:rgba(255,255,255,.08);color:#d4d4d8;}
+.btn-primary{background:var(--accent);color:#fff;}
+.btn:active{transform:scale(.97);}
+
+.toast{position:absolute;bottom:90px;left:50%;transform:translateX(-50%) translateY(20px);background:rgba(20,20,25,.95);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,.1);color:#fff;padding:10px 18px;border-radius:14px;font-size:12px;font-weight:600;z-index:120;opacity:0;pointer-events:none;transition:.3s;display:flex;align-items:center;gap:8px;box-shadow:0 10px 30px rgba(0,0,0,.5);max-width:90%;}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+.toast i{color:#22c55e;font-size:16px;}
+
+@media (prefers-reduced-motion: reduce){
+  *,*::before,*::after{animation-duration:.01ms !important;animation-iteration-count:1 !important;transition-duration:.01ms !important;}
+  .mesh-blob{animation:none;}
+}
+@media (max-height: 700px){
+  .profile-header{padding-top:70px;}
+  .avatar-container{width:76px;height:76px;}
+}
+</style>
+</head>
+<body class="theme-default" dir="ltr">
+<svg style="display:none" aria-hidden="true"><symbol id="i-chevron-left" viewBox="0 0 24 24"><path d="m15 18-6-6 6-6" /></symbol><symbol id="i-chevron-right" viewBox="0 0 24 24"><path d="m9 18 6-6-6-6" /></symbol><symbol id="i-hard-drive" viewBox="0 0 24 24"><path d="M10 16h.01" /><path d="M2.212 11.577a2 2 0 0 0-.212.896V18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2v-5.527a2 2 0 0 0-.212-.896L18.55 5.11A2 2 0 0 0 16.76 4H7.24a2 2 0 0 0-1.79 1.11z" /><path d="M21.946 12.013H2.054" /><path d="M6 16h.01" /></symbol><symbol id="i-link" viewBox="0 0 24 24"><path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" /><path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" /></symbol><symbol id="i-palette" viewBox="0 0 24 24"><path d="M12 22a1 1 0 0 1 0-20 10 9 0 0 1 10 9 5 5 0 0 1-5 5h-2.25a1.75 1.75 0 0 0-1.4 2.8l.3.4a1.75 1.75 0 0 1-1.4 2.8z" /><circle cx="13.5" cy="6.5" r=".5" /><circle cx="17.5" cy="10.5" r=".5" /><circle cx="6.5" cy="12.5" r=".5" /><circle cx="8.5" cy="7.5" r=".5" /></symbol><symbol id="i-rocket" viewBox="0 0 24 24"><path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" /><path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09" /><path d="M9 12a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.4 22.4 0 0 1-4 2z" /><path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 .05 5 .05" /></symbol><symbol id="i-shield-check" viewBox="0 0 24 24"><path d="M20 13c0 5-3.5 7.5-7.66 8.95a1 1 0 0 1-.67-.01C7.5 20.5 4 18 4 13V6a1 1 0 0 1 1-1c2 0 4.5-1.2 6.24-2.72a1.17 1.17 0 0 1 1.52 0C14.51 3.81 17 5 19 5a1 1 0 0 1 1 1z" /><path d="m9 12 2 2 4-4" /></symbol><symbol id="i-star" viewBox="0 0 24 24"><path d="M11.525 2.295a.53.53 0 0 1 .95 0l2.31 4.679a2.123 2.123 0 0 0 1.595 1.16l5.166.756a.53.53 0 0 1 .294.904l-3.736 3.638a2.123 2.123 0 0 0-.611 1.878l.882 5.14a.53.53 0 0 1-.771.56l-4.618-2.428a2.122 2.122 0 0 0-1.973 0L6.396 21.01a.53.53 0 0 1-.77-.56l.881-5.139a2.122 2.122 0 0 0-.611-1.879L2.16 9.795a.53.53 0 0 1 .294-.906l5.165-.755a2.122 2.122 0 0 0 1.597-1.16z" /></symbol><symbol id="i-terminal" viewBox="0 0 24 24"><path d="m7 11 2-2-2-2" /><path d="M11 13h4" /><rect width="18" height="18" x="3" y="3" rx="2" ry="2" /></symbol><symbol id="i-users" viewBox="0 0 24 24"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" /><path d="M16 3.128a4 4 0 0 1 0 7.744" /><path d="M22 21v-2a4 4 0 0 0-3-3.87" /><circle cx="9" cy="7" r="4" /></symbol><symbol id="i-contact" viewBox="0 0 24 24"><path d="M16 2v2" /><path d="M7 21v-2a2 2 0 012-2h6a2 2 0 012 2v2" /><path d="M8 2v2" /><circle cx="12" cy="10" r="3" /><rect x="3" y="3" width="18" height="18" rx="2" /></symbol><symbol id="i-check-circle" viewBox="0 0 24 24"><path d="M21.801 10A10 10 0 1 1 17 3.335" /><path d="m9 11 3 3L22 4" /></symbol><symbol id="i-code" viewBox="0 0 24 24"><path d="m16 18 6-6-6-6" /><path d="m8 6-6 6 6 6" /></symbol><symbol id="i-copy" viewBox="0 0 24 24"><rect width="14" height="14" x="8" y="8" rx="2" ry="2" /><path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2" /></symbol><symbol id="i-mail" viewBox="0 0 24 24"><path d="m22 7-8.991 5.727a2 2 0 0 1-2.009 0L2 7" /><rect x="2" y="4" width="20" height="16" rx="2" /></symbol><symbol id="i-file-code" viewBox="0 0 24 24"><path d="M6 22a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.704.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2z" /><path d="M14 2v5a1 1 0 0 0 1 1h5" /><path d="M10 12.5 8 15l2 2.5" /><path d="m14 12.5 2 2.5-2 2.5" /></symbol><symbol id="i-file-code-2" viewBox="0 0 24 24"><path d="M4 12.15V4a2 2 0 0 1 2-2h8a2.4 2.4 0 0 1 1.706.706l3.588 3.588A2.4 2.4 0 0 1 20 8v12a2 2 0 0 1-2 2h-3.35" /><path d="M14 2v5a1 1 0 0 0 1 1h5" /><path d="m5 16-3 3 3 3" /><path d="m9 22 3-3-3-3" /></symbol><symbol id="i-gauge" viewBox="0 0 24 24"><path d="m12 14 4-4" /><path d="M3.34 19a10 10 0 1 1 17.32 0" /></symbol><symbol id="i-server" viewBox="0 0 24 24"><rect width="20" height="8" x="2" y="2" rx="2" ry="2" /><rect width="20" height="8" x="2" y="14" rx="2" ry="2" /><line x1="6" x2="6.01" y1="6" y2="6" /><line x1="6" x2="6.01" y1="18" y2="18" /></symbol><symbol id="i-camera" viewBox="0 0 24 24"><path d="M13.997 4a2 2 0 0 1 1.76 1.05l.486.9A2 2 0 0 0 18.003 7H20a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V9a2 2 0 0 1 2-2h1.997a2 2 0 0 0 1.759-1.048l.489-.904A2 2 0 0 1 10.004 4z" /><circle cx="12" cy="13" r="3" /></symbol><symbol id="i-zap" viewBox="0 0 24 24"><path d="M15.914 4a1.5 1.5 0 00-2.474-1.561l-9 9A1.5 1.5 0 005.5 14h4.002a.5.5 0 01.471.666L8.086 20a1.5 1.5 0 002.475 1.56l9-9A1.5 1.5 0 0018.5 10h-3.997a.5.5 0 01-.472-.667z" /></symbol><symbol id="i-lock" viewBox="0 0 24 24"><rect width="18" height="11" x="3" y="11" rx="2" ry="2" /><path d="M7 11V7a5 5 0 0 1 10 0v4" /></symbol><symbol id="i-send" viewBox="0 0 24 24"><path d="M14.536 21.686a.5.5 0 0 0 .937-.024l6.5-19a.496.496 0 0 0-.635-.635l-19 6.5a.5.5 0 0 0-.024.937l7.93 3.18a2 2 0 0 1 1.112 1.11z" /><path d="m21.854 2.147-10.94 10.939" /></symbol><symbol id="i-pause-circle" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10" /><line x1="10" x2="10" y1="15" y2="9" /><line x1="14" x2="14" y1="15" y2="9" /></symbol><symbol id="i-pencil" viewBox="0 0 24 24"><path d="M21.174 6.812a1 1 0 0 0-3.986-3.987L3.842 16.174a2 2 0 0 0-.5.83l-1.321 4.352a.5.5 0 0 0 .623.622l4.353-1.32a2 2 0 0 0 .83-.497z" /><path d="m15 5 4 4" /></symbol><symbol id="i-play-circle" viewBox="0 0 24 24"><path d="M9 9.003a1 1 0 0 1 1.517-.859l4.997 2.997a1 1 0 0 1 0 1.718l-4.997 2.997A1 1 0 0 1 9 14.996z" /><circle cx="12" cy="12" r="10" /></symbol><symbol id="i-bot" viewBox="0 0 24 24"><path d="M12 8V4H8" /><rect width="16" height="12" x="4" y="8" rx="2" /><path d="M2 14h2" /><path d="M20 14h2" /><path d="M15 13v2" /><path d="M9 13v2" /></symbol><symbol id="i-share-2" viewBox="0 0 24 24"><circle cx="18" cy="5" r="3" /><circle cx="6" cy="12" r="3" /><circle cx="18" cy="19" r="3" /><line x1="8.59" x2="15.42" y1="13.51" y2="17.49" /><line x1="15.41" x2="8.59" y1="6.51" y2="10.49" /></symbol><symbol id="i-languages" viewBox="0 0 24 24"><path d="m5 8 6 6" /><path d="m4 14 6-6 2-3" /><path d="M2 5h12" /><path d="M7 2h1" /><path d="m22 22-5-10-5 10" /><path d="M14 18h6" /></symbol><symbol id="i-user" viewBox="0 0 24 24"><path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2" /><circle cx="12" cy="7" r="4" /></symbol><symbol id="i-wrench" viewBox="0 0 24 24"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.106-3.105c.32-.322.863-.22.983.218a6 6 0 0 1-8.259 7.057l-7.91 7.91a1 1 0 0 1-2.999-3l7.91-7.91a6 6 0 0 1 7.057-8.259c.438.12.54.662.219.984z" /></symbol></svg>
+
+<audio id="bgMusic" loop preload="none">
+  <source src="https://uploadkon.ir/uploads/0aa524_26Kimsesiz.mp3" type="audio/mpeg">
+</audio>
+
+<div class="mesh-bg">
+  <div class="mesh-blob blob-1"></div>
+  <div class="mesh-blob blob-2"></div>
+  <div class="mesh-blob blob-3"></div>
+</div>
+
+<div class="app-wrapper" id="appWrapper">
+  <div class="app-container">
+
+    <!-- TOP ACTIONS -->
+    <div class="top-actions">
+      <button class="icon-btn lang-btn" id="langBtn" aria-label="Switch language">FA</button>
+      <div class="music-pill" id="musicPill" role="button" aria-label="Toggle music">
+        <div class="eq-bars"><span class="eq-bar" style="height:3px"></span><span class="eq-bar" style="height:3px"></span><span class="eq-bar" style="height:3px"></span></div>
+        <span class="track-name" id="trackName">Play</span>
+        <i class="ph-fill ph-play-circle" id="playIcon" style="font-size:15px"><svg class="icon"><use href="#i-play-circle"></use></svg></i>
+      </div>
+      <button class="icon-btn" id="themeToggleBtn" aria-label="Switch theme"><i class="ph ph-palette"><svg class="icon"><use href="#i-palette"></use></svg></i></button>
+      <button class="icon-btn" id="termToggleBtn" aria-label="Open terminal"><i class="ph ph-terminal-window"><svg class="icon"><use href="#i-terminal"></use></svg></i></button>
+    </div>
+
+    <!-- PROFILE HEADER -->
+    <div class="profile-header">
+      <div class="avatar-container">
+        <img id="avatarImg" src="https://uploadkon.ir/uploads/e9cf24_26IMG-20260924-092006.jpg" alt="MATA" class="avatar" onerror="handleAvatarError(this)">
+        <div class="avatar avatar-fallback" id="avatarFallback" style="display:none;align-items:center;justify-content:center;font-size:32px;font-weight:700;background:linear-gradient(135deg,var(--accent),var(--accent-2));">M</div>
+      </div>
+      <h1 class="name">MATA<span class="fa-name" data-i18n="profile.faName">ماتا</span></h1>
+      <div class="role" data-i18n="profile.role">Backend Developer &amp; Security Specialist</div>
+      <div class="live-status">
+        <span class="dot"></span>
+        <span data-i18n="profile.online">Online</span>
+        <span class="time-text" id="liveTime">00:00</span>
+      </div>
+      <div class="availability">
+        <i class="ph-fill ph-lightning"><svg class="icon"><use href="#i-zap"></use></svg></i>
+        <span data-i18n="profile.avail">Available — Ready to cooperate within 12 hours</span>
+      </div>
+    </div>
+
+    <!-- CONTENT -->
+    <div class="content-scroll" id="contentScroll">
+
+      <!-- PROFILE TAB -->
+      <div id="tab-profile" class="tab-content active">
+        <h2 class="section-title"><i class="ph-fill ph-user"><svg class="icon"><use href="#i-user"></use></svg></i><span data-i18n="section.about">About Me</span></h2>
+        <div class="card-box">
+          <p data-i18n="bio.p1">24-year-old software developer and security specialist based in Iran. I build secure backend systems, automate workflows, and develop bots that scale.</p>
+          <p data-i18n="bio.p2">Specialized in Python, PHP, Linux hardening, and Telegram bot development. I care about clean code, real security, and shipping on time.</p>
+        </div>
+
+        <h2 class="section-title"><i class="ph-fill ph-code"><svg class="icon"><use href="#i-code"></use></svg></i><span data-i18n="section.skills">Skills</span></h2>
+        <div class="card-box" id="skillsBox"></div>
+
+        <h2 class="section-title"><i class="ph-fill ph-translate"><svg class="icon"><use href="#i-languages"></use></svg></i><span data-i18n="section.langs">Languages</span></h2>
+        <div class="card-box" id="langsBox"></div>
+      </div>
+
+      <!-- PROJECTS TAB -->
+      <div id="tab-projects" class="tab-content">
+        <h2 class="section-title"><i class="ph-fill ph-rocket-launch"><svg class="icon"><use href="#i-rocket"></use></svg></i><span data-i18n="section.projects">Projects</span></h2>
+        <div class="projects-list" id="projectsList"></div>
+      </div>
+
+      <!-- REVIEWS TAB -->
+      <div id="tab-reviews" class="tab-content">
+        <h2 class="section-title"><i class="ph-fill ph-star"><svg class="icon"><use href="#i-star"></use></svg></i><span data-i18n="section.reviews">Reviews</span></h2>
+        <div class="reviews-list" id="reviewsList"></div>
+        <button class="review-btn" id="openReviewBtn">
+          <i class="ph-fill ph-pencil-simple"><svg class="icon"><use href="#i-pencil"></use></svg></i>
+          <span data-i18n="reviews.submit">Submit a Review</span>
+        </button>
+      </div>
+
+      <!-- CONNECT TAB -->
+      <div id="tab-connect" class="tab-content">
+        <h2 class="section-title"><i class="ph-fill ph-link"><svg class="icon"><use href="#i-link"></use></svg></i><span data-i18n="section.connect">Connect</span></h2>
+        <div class="actions-list">
+          <a href="https://t.me/LOLPKG" target="_blank" rel="noopener noreferrer" class="action-btn">
+            <div class="action-left">
+              <i class="ph-fill ph-telegram-logo brand" style="color:#3b82f6"><svg class="icon"><use href="#i-send"></use></svg></i>
+              <div><div class="action-title">Telegram</div><div class="action-sub">@LOLPKG</div></div>
+            </div>
+            <i class="ph ph-caret-right" style="color:#52525b"><svg class="icon"><use href="#i-chevron-right"></use></svg></i>
+          </a>
+          <a href="https://instagram.com/mata.666" target="_blank" rel="noopener noreferrer" class="action-btn">
+            <div class="action-left">
+              <i class="ph-fill ph-instagram-logo brand" style="color:#dc2743"><svg class="icon"><use href="#i-camera"></use></svg></i>
+              <div><div class="action-title">Instagram</div><div class="action-sub">@mata.666</div></div>
+            </div>
+            <i class="ph ph-caret-right" style="color:#52525b"><svg class="icon"><use href="#i-chevron-right"></use></svg></i>
+          </a>
+          <a href="mailto:mata.666.devil@gmail.com" class="action-btn">
+            <div class="action-left">
+              <i class="ph-fill ph-envelope-simple brand" style="color:#ef4444"><svg class="icon"><use href="#i-mail"></use></svg></i>
+              <div><div class="action-title">Email</div><div class="action-sub">mata.666.devil@gmail.com</div></div>
+            </div>
+            <i class="ph ph-caret-right" style="color:#52525b"><svg class="icon"><use href="#i-chevron-right"></use></svg></i>
+          </a>
+        </div>
+        <div class="util-grid">
+          <button class="util-btn" id="copyContactBtn"><i class="ph-fill ph-copy"><svg class="icon"><use href="#i-copy"></use></svg></i><span data-i18n="util.copy">Copy Info</span></button>
+          <button class="util-btn" id="vcardBtn"><i class="ph-fill ph-address-book"><svg class="icon"><use href="#i-contact"></use></svg></i><span data-i18n="util.vcard">vCard</span></button>
+          <button class="util-btn" id="shareBtn"><i class="ph-fill ph-share-network"><svg class="icon"><use href="#i-share-2"></use></svg></i><span data-i18n="util.share">Share</span></button>
+        </div>
+
+        <h2 class="section-title" style="margin-top:22px"><i class="ph-fill ph-wrench"><svg class="icon"><use href="#i-wrench"></use></svg></i><span data-i18n="section.tools">Tools</span></h2>
+        <div class="actions-list">
+          <button class="action-btn" onclick="openScreen('statusScreen')">
+            <div class="action-left">
+              <i class="ph-fill ph-hard-drives brand" style="color:#22c55e"><svg class="icon"><use href="#i-server"></use></svg></i>
+              <div><div class="action-title" data-i18n="tool.server">Server Monitor</div><div class="action-sub">Live metrics</div></div>
+            </div>
+            <i class="ph ph-caret-right" style="color:#52525b"><svg class="icon"><use href="#i-chevron-right"></use></svg></i>
+          </button>
+          <button class="action-btn" onclick="openScreen('botScreen')">
+            <div class="action-left">
+              <i class="ph-fill ph-robot brand" style="color:#8b5cf6"><svg class="icon"><use href="#i-bot"></use></svg></i>
+              <div><div class="action-title" data-i18n="tool.bot">Bot Simulator</div><div class="action-sub">Test commands</div></div>
+            </div>
+            <i class="ph ph-caret-right" style="color:#52525b"><svg class="icon"><use href="#i-chevron-right"></use></svg></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- DOCK -->
+    <div class="dock">
+      <button class="dock-btn active" data-tab="tab-profile" data-icon="user" aria-label="Profile"><i class="ph-fill ph-user"><svg class="icon"><use href="#i-user"></use></svg></i></button>
+      <button class="dock-btn" data-tab="tab-projects" data-icon="rocket-launch" aria-label="Projects"><i class="ph ph-rocket-launch"><svg class="icon"><use href="#i-rocket"></use></svg></i></button>
+      <button class="dock-btn" data-tab="tab-reviews" data-icon="star" aria-label="Reviews"><i class="ph ph-star"><svg class="icon"><use href="#i-star"></use></svg></i></button>
+      <button class="dock-btn" data-tab="tab-connect" data-icon="link" aria-label="Connect"><i class="ph ph-link"><svg class="icon"><use href="#i-link"></use></svg></i></button>
+    </div>
+
+    <!-- SERVER MONITOR -->
+    <div class="sub-screen" id="statusScreen">
+      <div class="sub-header">
+        <button class="back-btn" onclick="closeScreen('statusScreen')"><i class="ph ph-caret-left" style="font-size:16px"><svg class="icon"><use href="#i-chevron-left"></use></svg></i><span data-i18n="btn.back">Back</span></button>
+        <h3 class="sub-title" data-i18n="server.title">Live Metrics</h3>
+        <div class="sub-spacer"></div>
+      </div>
+      <div class="sub-content">
+        <div class="server-grid">
+          <div class="metric-card">
+            <div class="circle-chart" id="cpuRing"><div class="circle-inner"><span class="circle-val" id="cpuTxt">0%</span></div></div>
+            <span class="circle-label">CPU</span>
+          </div>
+          <div class="metric-card">
+            <div class="circle-chart" id="ramRing"><div class="circle-inner"><span class="circle-val" id="ramTxt">0%</span></div></div>
+            <span class="circle-label">RAM</span>
+          </div>
+        </div>
+        <div class="stat-row"><span class="stat-name"><span class="ping-dot"></span><span data-i18n="server.ping">Network Ping</span></span><span class="stat-val" id="pingTxt">-- ms</span></div>
+        <div class="stat-row"><span class="stat-name"><i class="ph ph-users"><svg class="icon"><use href="#i-users"></use></svg></i><span data-i18n="server.sessions">Active Sessions</span></span><span class="stat-val" id="usersTxt">1,402</span></div>
+        <div class="stat-row"><span class="stat-name"><i class="ph ph-shield-check"><svg class="icon"><use href="#i-shield-check"></use></svg></i><span data-i18n="server.uptime">Uptime</span></span><span class="stat-val" id="uptimeTxt">99.98%</span></div>
+        <div class="stat-row"><span class="stat-name"><i class="ph ph-hard-drive"><svg class="icon"><use href="#i-hard-drive"></use></svg></i><span data-i18n="server.disk">Disk</span></span><span class="stat-val" id="diskTxt">42%</span></div>
+      </div>
+    </div>
+
+    <!-- BOT SIMULATOR -->
+    <div class="sub-screen" id="botScreen">
+      <div class="sub-header">
+        <button class="back-btn" onclick="closeScreen('botScreen')"><i class="ph ph-caret-left" style="font-size:16px"><svg class="icon"><use href="#i-chevron-left"></use></svg></i><span data-i18n="btn.back">Back</span></button>
+        <h3 class="sub-title" data-i18n="bot.title">Bot Testing</h3>
+        <div class="sub-spacer"></div>
+      </div>
+      <div class="sub-content">
+        <div class="chat-container">
+          <div class="chat-history" id="chatHistory"></div>
+          <div class="chat-input-area">
+            <input type="text" id="botInput" class="chat-input" placeholder="Message..." autocomplete="off" inputmode="text">
+            <button class="chat-send-btn" id="sendBtn" aria-label="Send"><i class="ph-fill ph-paper-plane-right"><svg class="icon"><use href="#i-send"></use></svg></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TERMINAL -->
+    <div class="terminal-overlay" id="terminalUI">
+      <div class="term-top-bar">
+        <div class="mac-btns">
+          <div class="mac-btn mac-close" id="macCloseBtn" role="button" aria-label="Close terminal">x</div>
+          <div class="mac-btn mac-min"></div>
+          <div class="mac-btn mac-max"></div>
+        </div>
+        <button class="term-close-explicit" id="explicitCloseBtn">EXIT [ESC]</button>
+      </div>
+      <div class="term-body" id="termBody">
+        <div id="termContent"></div>
+        <div class="term-prompt" id="termPrompt" style="display:none">
+          <span style="color:#22c55e">MATA@server:~$&nbsp;</span>
+          <input type="text" class="term-input" id="termInput" autocomplete="off" autocapitalize="off" autocorrect="off" spellcheck="false">
+        </div>
+      </div>
+    </div>
+
+    <!-- REVIEW MODAL -->
+    <div class="modal-overlay" id="reviewModal">
+      <div class="modal">
+        <div class="modal-title"><i class="ph-fill ph-pencil-simple"><svg class="icon"><use href="#i-pencil"></use></svg></i><span data-i18n="reviews.modalTitle">Share Your Feedback</span></div>
+        <div class="form-group">
+          <label class="form-label" data-i18n="reviews.name">Your Name</label>
+          <input type="text" class="form-input" id="revName" maxlength="40" autocomplete="name">
+        </div>
+        <div class="form-group">
+          <label class="form-label" data-i18n="reviews.role">Your Role / Company</label>
+          <input type="text" class="form-input" id="revRole" maxlength="50" autocomplete="organization">
+        </div>
+        <div class="form-group">
+          <label class="form-label" data-i18n="reviews.rating">Rating</label>
+          <div class="rating-input" id="ratingInput">
+            <i class="ph-fill ph-star" data-v="1"><svg class="icon"><use href="#i-star"></use></svg></i>
+            <i class="ph-fill ph-star" data-v="2"><svg class="icon"><use href="#i-star"></use></svg></i>
+            <i class="ph-fill ph-star" data-v="3"><svg class="icon"><use href="#i-star"></use></svg></i>
+            <i class="ph-fill ph-star" data-v="4"><svg class="icon"><use href="#i-star"></use></svg></i>
+            <i class="ph-fill ph-star" data-v="5"><svg class="icon"><use href="#i-star"></use></svg></i>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" data-i18n="reviews.message">Message</label>
+          <textarea class="form-textarea" id="revText" maxlength="400" placeholder="Tell us about your experience..."></textarea>
+        </div>
+        <div class="form-actions">
+          <button class="btn btn-cancel" id="revCancel" data-i18n="btn.cancel">Cancel</button>
+          <button class="btn btn-primary" id="revSubmit" data-i18n="btn.submit">Submit</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- TOAST -->
+    <div class="toast" id="toast"><i class="ph-fill ph-check-circle"><svg class="icon"><use href="#i-check-circle"></use></svg></i><span id="toastText">Done</span></div>
+
+  </div>
+</div>
+
+<script>
+(function(){
+  'use strict';
+
+  window.handleAvatarError = function(img){
+    if (!img.dataset.stage){
+      img.dataset.stage = '1';
+      img.src = 'https://ui-avatars.com/api/?name=MATA&background=3b82f6&color=fff&size=200&bold=true';
+    } else {
+      img.style.display = 'none';
+      const fb = document.getElementById('avatarFallback');
+      if (fb) fb.style.display = 'flex';
+    }
+  };
+
+  /* ============ I18N ============ */
+  const I18N = {
+    en: {
+      'profile.faName': 'MATA',
+      'profile.role': 'Backend Developer & Security Specialist',
+      'profile.online': 'Online',
+      'profile.avail': 'Available — Ready to cooperate within 12 hours',
+      'section.about': 'About Me',
+      'section.skills': 'Skills',
+      'section.langs': 'Languages',
+      'section.projects': 'Projects',
+      'section.reviews': 'Reviews',
+      'section.connect': 'Connect',
+      'section.tools': 'Tools',
+      'bio.p1': '24-year-old software developer and security specialist based in Iran. I build secure backend systems, automate workflows, and develop bots that scale.',
+      'bio.p2': 'Specialized in Python, PHP, Linux hardening, and Telegram bot development. I care about clean code, real security, and shipping on time.',
+      'tool.server': 'Server Monitor',
+      'tool.bot': 'Bot Simulator',
+      'util.copy': 'Copy Info',
+      'util.vcard': 'vCard',
+      'util.share': 'Share',
+      'btn.back': 'Back',
+      'btn.cancel': 'Cancel',
+      'btn.submit': 'Submit',
+      'server.title': 'Live Metrics',
+      'server.ping': 'Network Ping',
+      'server.sessions': 'Active Sessions',
+      'server.uptime': 'Uptime',
+      'server.disk': 'Disk',
+      'bot.title': 'Bot Testing',
+      'bot.placeholder': 'Message...',
+      'reviews.submit': 'Submit a Review',
+      'reviews.modalTitle': 'Share Your Feedback',
+      'reviews.name': 'Your Name',
+      'reviews.role': 'Your Role / Company',
+      'reviews.rating': 'Rating',
+      'reviews.message': 'Message',
+      'toast.copied': 'Contact info copied',
+      'toast.reviewPending': 'Review submitted — awaiting approval',
+      'toast.reviewThanks': 'Thanks for your feedback!',
+      'toast.shared': 'Link copied',
+      'toast.vcardDone': 'vCard downloaded',
+      'toast.fillAll': 'Please fill all fields',
+      'toast.rateFirst': 'Please select a rating',
+      'toast.autoplayBlocked': 'Autoplay blocked — tap play again',
+      'term.welcome': 'Welcome to MATA terminal. Type "help" to see commands.',
+    },
+    fa: {
+      'profile.faName': 'ماتا',
+      'profile.role': 'برنامه‌نویس بک‌اند و امنیت‌کار',
+      'profile.online': 'آنلاین',
+      'profile.avail': 'آماده همکاری تا ۱۲ ساعت آینده',
+      'section.about': 'درباره من',
+      'section.skills': 'مهارت‌ها',
+      'section.langs': 'زبان‌ها',
+      'section.projects': 'پروژه‌ها',
+      'section.reviews': 'نظرات',
+      'section.connect': 'ارتباط با من',
+      'section.tools': 'ابزارها',
+      'bio.p1': 'برنامه‌نویس و امنیت‌کار ۲۴ ساله ساکن ایران. سیستم‌های بک‌اند امن می‌سازم، فرایندها را خودکار می‌کنم و ربات‌هایی توسعه می‌دهم که مقیاس‌پذیرند.',
+      'bio.p2': 'متخصص در پایتون، PHP، هاردنینگ لینوکس و توسعه ربات تلگرام. کد تمیز، امنیت واقعی و تحویل به‌موقع برایم مهم است.',
+      'tool.server': 'مانیتور سرور',
+      'tool.bot': 'شبیه‌ساز ربات',
+      'util.copy': 'کپی اطلاعات',
+      'util.vcard': 'مخاطب',
+      'util.share': 'اشتراک‌گذاری',
+      'btn.back': 'بازگشت',
+      'btn.cancel': 'لغو',
+      'btn.submit': 'ارسال',
+      'server.title': 'آمار زنده',
+      'server.ping': 'پینگ شبکه',
+      'server.sessions': 'نشست‌های فعال',
+      'server.uptime': 'زمان آپتایم',
+      'server.disk': 'فضای دیسک',
+      'bot.title': 'تست ربات',
+      'bot.placeholder': 'پیام...',
+      'reviews.submit': 'ثبت نظر',
+      'reviews.modalTitle': 'نظر خود را بنویسید',
+      'reviews.name': 'نام شما',
+      'reviews.role': 'سمت / شرکت',
+      'reviews.rating': 'امتیاز',
+      'reviews.message': 'پیام',
+      'toast.copied': 'اطلاعات کپی شد',
+      'toast.reviewPending': 'نظر ارسال شد — در صورت تأیید منتشر می‌شود',
+      'toast.reviewThanks': 'ممنون از بازخورد شما!',
+      'toast.shared': 'لینک کپی شد',
+      'toast.vcardDone': 'فایل مخاطب دانلود شد',
+      'toast.fillAll': 'لطفاً همه فیلدها را پر کنید',
+      'toast.rateFirst': 'لطفاً امتیاز بدهید',
+      'toast.autoplayBlocked': 'پخش خودکار مسدود شد — دوباره روی پخش بزن',
+      'term.welcome': 'به ترمینال MATA خوش آمدید. برای دیدن دستورات "help" را تایپ کنید.',
+    }
+  };
+
+  let LANG = localStorage.getItem('mata_lang') || 'en';
+
+  function t(key){ return (I18N[LANG] && I18N[LANG][key]) || I18N.en[key] || key; }
+
+  function applyLang(){
+    document.documentElement.lang = LANG;
+    document.documentElement.dir = LANG === 'fa' ? 'rtl' : 'ltr';
+    document.body.dir = LANG === 'fa' ? 'rtl' : 'ltr';
+    document.getElementById('langBtn').textContent = LANG === 'fa' ? 'EN' : 'FA';
+    document.querySelectorAll('[data-i18n]').forEach(el => { el.textContent = t(el.dataset.i18n); });
+    document.querySelectorAll('[data-i18n-ph]').forEach(el => { el.placeholder = t(el.dataset.i18nPh); });
+    renderSkills(); renderLangs(); renderProjects(); renderReviews();
+    const chat = document.getElementById('chatHistory');
+    if (chat && chat.dataset.greeted !== '1'){
+      chat.dataset.greeted = '1';
+      addMsg(LANG === 'fa'
+        ? 'سلام! من دستیار مجازی MATA هستم. دستورات <b>/start</b>، <b>/help</b>، <b>/skills</b>، <b>/projects</b> یا <b>/contact</b> را امتحان کن.'
+        : 'Hello! I\'m MATA\'s virtual assistant. Try <b>/start</b>, <b>/help</b>, <b>/skills</b>, <b>/projects</b> or <b>/contact</b>.', 'bot');
+    }
+    document.getElementById('botInput').placeholder = t('bot.placeholder');
+  }
+
+  document.getElementById('langBtn').addEventListener('click', () => {
+    LANG = LANG === 'fa' ? 'en' : 'fa';
+    localStorage.setItem('mata_lang', LANG);
+    if (navigator.vibrate) navigator.vibrate(40);
+    applyLang();
+    showToast(LANG === 'fa' ? 'زبان تغییر کرد' : 'Language switched');
+  });
+
+  /* ============ DATA ============ */
+  const SKILLS = [
+    { name: 'Python', val: 99, icon: 'ph-fill ph-file-py' },
+    { name: 'Bot Development', val: 100, icon: 'ph-fill ph-robot' },
+    { name: 'Linux', val: 95, icon: 'ph-fill ph-terminal-window' },
+    { name: 'PHP', val: 85, icon: 'ph-fill ph-file-code' },
+  ];
+  const LANGS = [
+    { name: { en: 'Persian', fa: 'فارسی' }, val: 100 },
+    { name: { en: 'Azerbaijani Turkish', fa: 'ترکی آذربایجانی' }, val: 100 },
+    { name: { en: 'Istanbul Turkish', fa: 'ترکی استانبولی' }, val: 100 },
+    { name: { en: 'English', fa: 'انگلیسی' }, val: 80 },
+  ];
+  const PROJECTS = [
+    {
+      icon: 'ph-fill ph-robot', iconSym: 'i-bot',
+      title: { en: 'Aegis Bot Framework', fa: 'فریمورک ربات Aegis' },
+      sub: 'Python · asyncio',
+      desc: {
+        en: 'Plugin-based Telegram bot framework with async handlers, built-in rate limiting, SQLite/Redis persistence, and a security-first design.',
+        fa: 'فریمورک ربات تلگرام مبتنی بر پلاگین با هندلر async، محدودسازی نرخ درخواست، ذخیره‌سازی SQLite/Redis و طراحی امنیت‌محور.'
+      },
+      tags: ['Python', 'asyncio', 'Redis', 'Telegram API']
+    },
+    {
+      icon: 'ph-fill ph-shield-check', iconSym: 'i-shield-check',
+      title: { en: 'Sentinel Audit', fa: 'ابزار Sentinel Audit' },
+      sub: 'Bash · Python',
+      desc: {
+        en: 'Linux server hardening toolkit. Audits SSH, firewall, users, permissions, and known CVEs; generates a prioritized fix report.',
+        fa: 'جعبه‌ابزار هاردنینگ سرور لینوکس. بررسی SSH، فایروال، کاربران، دسترسی‌ها و CVEهای شناخته‌شده و تولید گزارش اولویت‌دار.'
+      },
+      tags: ['Bash', 'Python', 'Security', 'Linux']
+    },
+    {
+      icon: 'ph-fill ph-gauge', iconSym: 'i-gauge',
+      title: { en: 'GuardPanel', fa: 'پنل GuardPanel' },
+      sub: 'PHP · MySQL',
+      desc: {
+        en: 'Lightweight self-hosted server management panel with live metrics, file manager, cron jobs, and 2FA login.',
+        fa: 'پنل مدیریت سرور سبک و self-hosted با آمار زنده، مدیریت فایل، کرون‌جاب و ورود دو مرحله‌ای.'
+      },
+      tags: ['PHP', 'MySQL', 'Vanilla JS', '2FA']
+    },
+    {
+      icon: 'ph-fill ph-lock-key', iconSym: 'i-lock',
+      title: { en: 'CipherVault', fa: 'CipherVault' },
+      sub: 'Python · AES-256',
+      desc: {
+        en: 'End-to-end encrypted file vault. AES-256-GCM, Argon2 key derivation, CLI + TUI, and zero-knowledge design.',
+        fa: 'گاوصندوق فایل رمزنگاری‌شده سرتاسری. AES-256-GCM، استخراج کلید Argon2، رابط CLI و TUI و طراحی zero-knowledge.'
+      },
+      tags: ['Python', 'Cryptography', 'CLI', 'Argon2']
+    },
+  ];
+  const DEFAULT_REVIEWS = [
+    { name: 'Ali Rezaei', role: { en: 'Startup Founder', fa: 'بنیان‌گذار استارتاپ' }, stars: 5,
+      text: { en: 'MATA delivered our Telegram bot in 3 days. Clean code, rock-solid security, and great communication throughout.', fa: 'ماتا ربات تلگرام ما را در ۳ روز تحویل داد. کد تمیز، امنیت عالی و ارتباط بی‌نقص.' },
+      date: '2024-11-12' },
+    { name: 'Sara Ahmadi', role: { en: 'DevOps Engineer', fa: 'مهندس DevOps' }, stars: 5,
+      text: { en: 'His Linux hardening guide saved us from a real breach attempt. True professional who knows security inside out.', fa: 'راهنمای هاردنینگ لینوکس او ما را از یک حمله واقعی نجات داد. حرفه‌ای واقعی که امنیت را از بر است.' },
+      date: '2024-10-04' },
+    { name: 'Reza Karimi', role: { en: 'CTO, TechCo', fa: 'مدیر فنی، TechCo' }, stars: 5,
+      text: { en: 'Fast, reliable, and delivers beyond expectations. We will definitely hire again for our next project.', fa: 'سریع، قابل‌اعتماد و فراتر از انتظار. قطعاً برای پروژه بعدی دوباره استخدامش می‌کنیم.' },
+      date: '2024-09-18' },
+    { name: 'Niloufar H.', role: { en: 'Product Manager', fa: 'مدیر محصول' }, stars: 4,
+      text: { en: 'One of the best backend developers I have worked with. On time, communicates well, and cares about quality.', fa: 'یکی از بهترین توسعه‌دهنده‌های بک‌اند که باهاش کار کردم. به‌موقع، خوش‌ارتباط و کیفیت‌محور.' },
+      date: '2024-08-27' },
+  ];
+
+  /* ============ RENDER ============ */
+  function renderSkills(){
+    const box = document.getElementById('skillsBox');
+    box.innerHTML = SKILLS.map(s => `
+      <div class="skill-row">
+        <div class="skill-head"><span>${s.name}</span><span class="pct">${s.val}%</span></div>
+        <div class="skill-bar"><div class="skill-fill" data-w="${s.val}"></div></div>
+      </div>`).join('');
+    requestAnimationFrame(() => {
+      box.querySelectorAll('.skill-fill').forEach(el => { el.style.width = el.dataset.w + '%'; });
+    });
+  }
+  function renderLangs(){
+    const box = document.getElementById('langsBox');
+    box.innerHTML = LANGS.map(s => {
+      const nm = typeof s.name === 'string' ? s.name : s.name[LANG];
+      return `
+      <div class="skill-row">
+        <div class="skill-head"><span>${nm}</span><span class="pct">${s.val}%</span></div>
+        <div class="skill-bar"><div class="skill-fill" data-w="${s.val}"></div></div>
+      </div>`;
+    }).join('');
+    requestAnimationFrame(() => {
+      box.querySelectorAll('.skill-fill').forEach(el => { el.style.width = el.dataset.w + '%'; });
+    });
+  }
+  function renderProjects(){
+    const list = document.getElementById('projectsList');
+    list.innerHTML = PROJECTS.map(p => `
+      <div class="project-card">
+        <div class="project-head">
+          <div class="project-icon"><svg class="icon"><use href="#${p.iconSym}"></use></svg></div>
+          <div>
+            <div class="project-title">${p.title[LANG]}</div>
+            <div class="project-sub">${p.sub}</div>
+          </div>
+        </div>
+        <div class="project-desc">${p.desc[LANG]}</div>
+        <div class="project-tags">${p.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>
+      </div>`).join('');
+  }
+  function getStoredReviews(){
+    try { return JSON.parse(localStorage.getItem('mata_reviews') || '[]'); } catch(e){ return []; }
+  }
+  function renderReviews(){
+    const list = document.getElementById('reviewsList');
+    const all = [...DEFAULT_REVIEWS, ...getStoredReviews()];
+    list.innerHTML = all.map(r => {
+      const initials = r.name.split(' ').filter(Boolean).map(w=>w[0]).slice(0,2).join('').toUpperCase() || '?';
+      const stars = '★'.repeat(r.stars) + '☆'.repeat(5-r.stars);
+      const role = typeof r.role === 'string' ? r.role : (r.role[LANG] || r.role.en);
+      const txt = typeof r.text === 'string' ? r.text : (r.text[LANG] || r.text.en);
+      return `
+        <div class="review-card">
+          <div class="review-head">
+            <div class="review-avatar">${initials}</div>
+            <div class="review-meta">
+              <div class="review-name">${escapeHtml(r.name)}</div>
+              <div class="review-role">${escapeHtml(role)}</div>
+            </div>
+          </div>
+          <div class="review-stars">${stars}</div>
+          <div class="review-text">${escapeHtml(txt)}</div>
+          <div class="review-date">${r.date || ''}</div>
+        </div>`;
+    }).join('');
+  }
+  function escapeHtml(s){
+    return String(s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+  }
+
+  /* ============ THEME ============ */
+  const THEMES = ['theme-default','theme-navy','theme-emerald','theme-black'];
+  let themeIdx = 0;
+  const savedTheme = localStorage.getItem('mata_theme');
+  if (savedTheme && THEMES.includes(savedTheme)){
+    themeIdx = THEMES.indexOf(savedTheme);
+    document.body.className = savedTheme;
+  }
+  document.getElementById('themeToggleBtn').addEventListener('click', () => {
+    if (navigator.vibrate) navigator.vibrate(40);
+    document.body.classList.remove(THEMES[themeIdx]);
+    themeIdx = (themeIdx + 1) % THEMES.length;
+    if (THEMES[themeIdx] !== 'theme-default') document.body.classList.add(THEMES[themeIdx]);
+    localStorage.setItem('mata_theme', THEMES[themeIdx]);
+  });
+
+  /* ============ MUSIC ============ */
+  const bgMusic = document.getElementById('bgMusic');
+  const musicPill = document.getElementById('musicPill');
+  const trackName = document.getElementById('trackName');
+  const playIcon = document.getElementById('playIcon');
+  function setPlayIcon(name){
+    const use = playIcon.querySelector('use');
+    if (use) use.setAttribute('href', '#' + name);
+  }
+  function toggleMusic(){
+    if (bgMusic.paused){
+      bgMusic.play().then(() => {
+        musicPill.classList.add('playing');
+        trackName.textContent = LANG === 'fa' ? 'پخش...' : 'Playing...';
+        setPlayIcon('i-pause-circle');
+      }).catch(() => showToast(t('toast.autoplayBlocked')));
+    } else {
+      bgMusic.pause(); musicPill.classList.remove('playing');
+      trackName.textContent = LANG === 'fa' ? 'مکث' : 'Paused';
+      setPlayIcon('i-play-circle');
+    }
+    if (navigator.vibrate) navigator.vibrate(40);
+  }
+  musicPill.addEventListener('click', e => { e.stopPropagation(); toggleMusic(); });
+
+  /* ============ DOCK / TABS ============ */
+  const dockBtns = document.querySelectorAll('.dock-btn');
+  dockBtns.forEach(btn => {
+    btn.addEventListener('click', function(){
+      dockBtns.forEach(b => b.classList.remove('active'));
+      this.classList.add('active');
+      if (navigator.vibrate) navigator.vibrate(50);
+      document.querySelectorAll('.content-scroll .tab-content').forEach(t => t.classList.remove('active'));
+      document.getElementById(this.dataset.tab).classList.add('active');
+      document.getElementById('contentScroll').scrollTop = 0;
+    });
+  });
+
+  /* ============ SUB SCREENS ============ */
+  window.openScreen = function(id){
+    document.getElementById(id).classList.add('active');
+    if (navigator.vibrate) navigator.vibrate(30);
+  };
+  window.closeScreen = function(id){
+    document.getElementById(id).classList.remove('active');
+    if (navigator.vibrate) navigator.vibrate(30);
+  };
+
+  /* ============ SERVER STATS ============ */
+  const cpuRing = document.getElementById('cpuRing');
+  const ramRing = document.getElementById('ramRing');
+  function updateServerStats(){
+    const cpu = Math.floor(Math.random()*55) + 8;
+    document.getElementById('cpuTxt').textContent = cpu + '%';
+    cpuRing.style.background = `conic-gradient(var(--accent) ${cpu}%, rgba(255,255,255,.05) 0%)`;
+    const ramVal = Math.random()*3.5 + 2.0;
+    const ramPct = Math.min(95, Math.floor((ramVal/8)*100));
+    document.getElementById('ramTxt').textContent = ramPct + '%';
+    ramRing.style.background = `conic-gradient(var(--accent-2) ${ramPct}%, rgba(255,255,255,.05) 0%)`;
+    document.getElementById('pingTxt').textContent = (Math.floor(Math.random()*35)+18) + ' ms';
+    let u = parseInt(document.getElementById('usersTxt').textContent.replace(/,/g,''));
+    if (Math.random() > 0.5) u += Math.floor(Math.random()*3);
+    document.getElementById('usersTxt').textContent = u.toLocaleString();
+    document.getElementById('uptimeTxt').textContent = (99.9 + Math.random()*0.09).toFixed(2) + '%';
+    document.getElementById('diskTxt').textContent = (40 + Math.floor(Math.random()*5)) + '%';
+  }
+  setInterval(updateServerStats, 2200); updateServerStats();
+
+  /* ============ BOT ============ */
+  const chatInput = document.getElementById('botInput');
+  const chatHistory = document.getElementById('chatHistory');
+  const sendBtn = document.getElementById('sendBtn');
+
+  function addMsg(html, sender){
+    const div = document.createElement('div');
+    div.className = 'msg msg-' + sender;
+    if (sender === 'user') div.textContent = html;
+    else div.innerHTML = html;
+    chatHistory.appendChild(div);
+    chatHistory.scrollTop = chatHistory.scrollHeight;
+  }
+  function showTyping(){
+    const d = document.createElement('div');
+    d.className = 'msg msg-bot typing';
+    d.id = 'typingIndicator';
+    d.innerHTML = '<span></span><span></span><span></span>';
+    chatHistory.appendChild(d);
+    chatHistory.scrollTop = chatHistory.scrollHeight;
+  }
+  function hideTyping(){
+    const t = document.getElementById('typingIndicator');
+    if (t) t.remove();
+  }
+  function botReply(cmd){
+    const c = cmd.toLowerCase().trim();
+    const fa = LANG === 'fa';
+    if (c === '/start' || c === 'start') return fa
+      ? 'سلام! من دستیار MATA هستم. برای دیدن دستورات <b>/help</b> را بزن.'
+      : 'Hi! I\'m MATA\'s assistant. Type <b>/help</b> to see commands.';
+    if (c === '/help' || c === 'help') return fa
+      ? 'دستورات:<br><b>/about</b> — درباره ماتا<br><b>/skills</b> — مهارت‌ها<br><b>/projects</b> — پروژه‌ها<br><b>/contact</b> — راه‌های ارتباطی<br><b>/reviews</b> — نظرات<br><b>/ping</b> — تست سرعت'
+      : 'Commands:<br><b>/about</b> — About MATA<br><b>/skills</b> — Skills<br><b>/projects</b> — Projects<br><b>/contact</b> — Contact<br><b>/reviews</b> — Reviews<br><b>/ping</b> — Latency test';
+    if (c === '/about' || c === 'about') return fa
+      ? 'ماتا، ۲۴ ساله، ساکن ایران. برنامه‌نویس بک‌اند و امنیت‌کار. متخصص پایتون، PHP، لینوکس و ربات تلگرام.'
+      : 'MATA, 24, based in Iran. Backend developer & security specialist. Python, PHP, Linux & Telegram bots.';
+    if (c === '/skills' || c === 'skills') return fa
+      ? 'پایتون ۹۹٪ · ربات‌سازی ۱۰۰٪ · لینوکس ۹۵٪ · PHP ۸۵٪'
+      : 'Python 99% · Bot Dev 100% · Linux 95% · PHP 85%';
+    if (c === '/projects' || c === 'projects') return fa
+      ? '۴ پروژه فعال: Aegis Bot Framework، Sentinel Audit، GuardPanel، CipherVault.'
+      : '4 active projects: Aegis Bot Framework, Sentinel Audit, GuardPanel, CipherVault.';
+    if (c === '/contact' || c === 'contact') return fa
+      ? 'تلگرام: @LOLPKG<br>اینستاگرام: @mata.666<br>ایمیل: mata.666.devil@gmail.com'
+      : 'Telegram: @LOLPKG<br>Instagram: @mata.666<br>Email: mata.666.devil@gmail.com';
+    if (c === '/reviews' || c === 'reviews') return fa
+      ? 'برای دیدن نظرات، تب Reviews را در پایین باز کن.'
+      : 'Open the Reviews tab at the bottom to see feedback.';
+    if (c === '/ping' || c === 'ping') return 'Pong! 🏓 ' + (Math.floor(Math.random()*30)+15) + ' ms';
+    if (c === '/joke' || c === 'joke') {
+      const jokes = fa
+        ? ['چرا برنامه‌نویس‌ها تاریکی رو دوست دارن؟ چون light theme چشماشون رو اذیت می‌کنه! 😎', 'یه SQL وارد بار می‌شه، می‌گه: یه JOIN می‌دی؟ 🍻']
+        : ['Why do programmers prefer dark mode? Because light attracts bugs. 🐛', 'A SQL query walks into a bar, approaches two tables and asks: "Mind if I JOIN you?" 🍻'];
+      return jokes[Math.floor(Math.random()*jokes.length)];
+    }
+    return fa
+      ? 'دستور ناشناخته. <b>/help</b> را امتحان کن.'
+      : 'Unknown command. Try <b>/help</b>.';
+  }
+  function handleSend(){
+    const v = chatInput.value.trim();
+    if (!v) return;
+    addMsg(v, 'user');
+    chatInput.value = '';
+    showTyping();
+    setTimeout(() => {
+      hideTyping();
+      addMsg(botReply(v), 'bot');
+      if (navigator.vibrate) navigator.vibrate([10,30,10]);
+    }, 500 + Math.random()*400);
+  }
+  sendBtn.addEventListener('click', handleSend);
+  chatInput.addEventListener('keypress', e => { if (e.key === 'Enter') handleSend(); });
+
+  /* ============ TOAST ============ */
+  let toastTimer;
+  function showToast(msg){
+    const el = document.getElementById('toast');
+    document.getElementById('toastText').textContent = msg;
+    el.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => el.classList.remove('show'), 2400);
+  }
+
+  /* ============ UTIL BUTTONS ============ */
+  document.getElementById('copyContactBtn').addEventListener('click', async () => {
+    const txt = 'MATA — Backend Developer & Security Specialist\nTelegram: @LOLPKG\nInstagram: @mata.666\nEmail: mata.666.devil@gmail.com';
+    try {
+      await navigator.clipboard.writeText(txt);
+      showToast(t('toast.copied'));
+    } catch(e){
+      const ta = document.createElement('textarea');
+      ta.value = txt; document.body.appendChild(ta); ta.select();
+      document.execCommand('copy'); ta.remove();
+      showToast(t('toast.copied'));
+    }
+    if (navigator.vibrate) navigator.vibrate(30);
+  });
+
+  document.getElementById('vcardBtn').addEventListener('click', () => {
+    const vcf = [
+      'BEGIN:VCARD','VERSION:3.0',
+      'N:;MATA;;;','FN:MATA',
+      'TITLE:Backend Developer & Security Specialist',
+      'EMAIL:mata.666.devil@gmail.com',
+      'URL:https://t.me/LOLPKG',
+      'X-SOCIALPROFILE;TYPE=instagram:https://instagram.com/mata.666',
+      'NOTE:Available — ready to cooperate within 12 hours',
+      'END:VCARD'
+    ].join('\r\n');
+    const blob = new Blob([vcf], {type:'text/vcard'});
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url; a.download = 'MATA.vcf';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(()=>URL.revokeObjectURL(url), 1000);
+    showToast(t('toast.vcardDone'));
+    if (navigator.vibrate) navigator.vibrate(30);
+  });
+
+  document.getElementById('shareBtn').addEventListener('click', async () => {
+    const shareData = {
+      title: 'MATA — Backend Developer',
+      text: 'Check out MATA — Backend Developer & Security Specialist',
+      url: location.href
+    };
+    if (navigator.share){
+      try { await navigator.share(shareData); } catch(e){}
+    } else {
+      try {
+        await navigator.clipboard.writeText(location.href);
+        showToast(t('toast.shared'));
+      } catch(e){ showToast('Copy failed'); }
+    }
+    if (navigator.vibrate) navigator.vibrate(30);
+  });
+
+  /* ============ REVIEW MODAL ============ */
+  const reviewModal = document.getElementById('reviewModal');
+  let selectedRating = 0;
+  const stars = document.querySelectorAll('#ratingInput i');
+  stars.forEach(s => {
+    s.addEventListener('click', () => {
+      selectedRating = +s.dataset.v;
+      stars.forEach(x => x.classList.toggle('active', +x.dataset.v <= selectedRating));
+      if (navigator.vibrate) navigator.vibrate(20);
+    });
+  });
+  document.getElementById('openReviewBtn').addEventListener('click', () => {
+    reviewModal.classList.add('active');
+    if (navigator.vibrate) navigator.vibrate(30);
+  });
+  document.getElementById('revCancel').addEventListener('click', () => reviewModal.classList.remove('active'));
+  reviewModal.addEventListener('click', e => { if (e.target === reviewModal) reviewModal.classList.remove('active'); });
+
+  document.getElementById('revSubmit').addEventListener('click', () => {
+    const name = document.getElementById('revName').value.trim();
+    const role = document.getElementById('revRole').value.trim();
+    const text = document.getElementById('revText').value.trim();
+    if (!name || !role || !text){ showToast(t('toast.fillAll')); return; }
+    if (!selectedRating){ showToast(t('toast.rateFirst')); return; }
+    const newR = {
+      name, role, stars: selectedRating, text,
+      date: new Date().toISOString().slice(0,10),
+      pending: true
+    };
+    const stored = getStoredReviews();
+    stored.push(newR);
+    try { localStorage.setItem('mata_reviews', JSON.stringify(stored)); } catch(e){}
+    reviewModal.classList.remove('active');
+    document.getElementById('revName').value = '';
+    document.getElementById('revRole').value = '';
+    document.getElementById('revText').value = '';
+    selectedRating = 0;
+    stars.forEach(x => x.classList.remove('active'));
+    showToast(t('toast.reviewPending'));
+    if (navigator.vibrate) navigator.vibrate([20,40,20]);
+    setTimeout(() => showToast(t('toast.reviewThanks')), 2600);
+    renderReviews();
+  });
+
+  /* ============ CLOCK ============ */
+  function updateClock(){
+    const now = new Date();
+    const fmt = new Intl.DateTimeFormat('en-US', {timeZone:'Asia/Tehran',hour:'2-digit',minute:'2-digit',hour12:false}).format(now);
+    document.getElementById('liveTime').textContent = fmt + ' IRST';
+  }
+  setInterval(updateClock, 1000); updateClock();
+
+  /* ============ TERMINAL ============ */
+  const terminalUI = document.getElementById('terminalUI');
+  const termContent = document.getElementById('termContent');
+  const termPrompt = document.getElementById('termPrompt');
+  const termInput = document.getElementById('termInput');
+  const termBody = document.getElementById('termBody');
+  let booted = false;
+
+  const bootSeq = [
+    'MATA@server:~$ whoami',
+    'mata — backend developer & security specialist',
+    'MATA@server:~$ systemctl status aegis-bot.service',
+    '● aegis-bot.service — Active: active (running)',
+    'MATA@server:~$ echo $STATUS',
+    'online · 24/7 · accept-new-clients: true',
+  ];
+
+  function termLine(txt, color){
+    const d = document.createElement('div');
+    d.className = 'term-line';
+    if (color) d.style.color = color;
+    d.textContent = txt;
+    termContent.appendChild(d);
+    termBody.scrollTop = termBody.scrollHeight;
+  }
+  function typeSeq(i, cb){
+    if (i >= bootSeq.length){ cb && cb(); return; }
+    const line = bootSeq[i];
+    const d = document.createElement('div');
+    d.className = 'term-line';
+    termContent.appendChild(d);
+    let k = 0;
+    (function typeChar(){
+      if (k < line.length){
+        d.textContent += line[k++];
+        termBody.scrollTop = termBody.scrollHeight;
+        setTimeout(typeChar, 8);
+      } else setTimeout(() => typeSeq(i+1, cb), 180);
+    })();
+  }
+  function openTerminal(){
+    terminalUI.classList.add('active');
+    if (navigator.vibrate) navigator.vibrate(30);
+    if (!booted){
+      booted = true;
+      termContent.innerHTML = '';
+      typeSeq(0, () => { termPrompt.style.display = 'flex'; termInput.focus(); });
+    } else {
+      termPrompt.style.display = 'flex';
+      setTimeout(()=>termInput.focus(), 300);
+    }
+  }
+  function closeTerminal(){
+    terminalUI.classList.remove('active');
+    termPrompt.style.display = 'none';
+  }
+  document.getElementById('termToggleBtn').addEventListener('click', e => { e.stopPropagation(); openTerminal(); });
+  document.getElementById('macCloseBtn').addEventListener('click', closeTerminal);
+  document.getElementById('explicitCloseBtn').addEventListener('click', closeTerminal);
+
+  const TERM_HELP = {
+    en: [
+      'Available commands:',
+      '  help      — show this list',
+      '  about     — about MATA',
+      '  skills    — skill breakdown',
+      '  projects  — list projects',
+      '  contact   — contact info',
+      '  reviews   — open reviews tab',
+      '  whoami    — current user',
+      '  lang      — switch language (fa/en)',
+      '  clear     — clear terminal',
+      '  exit      — close terminal',
+      '  sudo      — try it 😉',
+    ],
+    fa: [
+      'دستورات موجود:',
+      '  help      — نمایش این لیست',
+      '  about     — درباره ماتا',
+      '  skills    — مهارت‌ها',
+      '  projects  — پروژه‌ها',
+      '  contact   — اطلاعات تماس',
+      '  reviews   — باز کردن تب نظرات',
+      '  whoami    — کاربر فعلی',
+      '  lang      — تغییر زبان (fa/en)',
+      '  clear     — پاک کردن ترمینال',
+      '  exit      — بستن ترمینال',
+      '  sudo      — امتحان کن 😉',
+    ]
+  };
+
+  function runCmd(raw){
+    const cmd = raw.trim().toLowerCase();
+    const fa = LANG === 'fa';
+    termLine('MATA@server:~$ ' + raw, '#22c55e');
+    if (!cmd) return;
+    if (cmd === 'help'){
+      TERM_HELP[LANG].forEach(l => termLine(l));
+    } else if (cmd === 'about'){
+      termLine(fa ? 'ماتا — برنامه‌نویس بک‌اند و امنیت‌کار، ۲۴ ساله، ایران.' : 'MATA — backend developer & security specialist, 24, Iran.');
+    } else if (cmd === 'skills'){
+      termLine('Python 99% | Bot Dev 100% | Linux 95% | PHP 85%');
+    } else if (cmd === 'projects'){
+      termLine('• Aegis Bot Framework (Python)');
+      termLine('• Sentinel Audit (Bash/Python)');
+      termLine('• GuardPanel (PHP/MySQL)');
+      termLine('• CipherVault (Python)');
+    } else if (cmd === 'contact'){
+      termLine('Telegram  : @LOLPKG');
+      termLine('Instagram : @mata.666');
+      termLine('Email     : mata.666.devil@gmail.com');
+    } else if (cmd === 'reviews'){
+      closeTerminal();
+      document.querySelector('.dock-btn[data-tab="tab-reviews"]').click();
+    } else if (cmd === 'whoami'){
+      termLine('guest — you are viewing MATA\'s portfolio');
+    } else if (cmd === 'lang'){
+      termLine('Usage: lang fa  |  lang en');
+    } else if (cmd.startsWith('lang ')){
+      const l = cmd.split(' ')[1];
+      if (l === 'fa' || l === 'en'){
+        LANG = l; localStorage.setItem('mata_lang', l); applyLang();
+        termLine(l === 'fa' ? 'زبان به فارسی تغییر کرد.' : 'Language switched to English.');
+      } else termLine('Unknown language. Use: fa | en');
+    } else if (cmd === 'clear'){
+      termContent.innerHTML = '';
+    } else if (cmd === 'exit'){
+      closeTerminal();
+    } else if (cmd.startsWith('sudo')){
+      termLine(fa ? 'دسترسی رد شد: شما sudo نیستید 😄' : 'Permission denied: you are not in the sudoers file. This incident has been reported. 😄', '#f87171');
+    } else {
+      termLine(fa ? 'دستور ناشناخته: ' + cmd + '  (برای راهنما "help" را بزن)' : 'command not found: ' + cmd + '  (type "help")', '#f87171');
+    }
+    termBody.scrollTop = termBody.scrollHeight;
+  }
+  termInput.addEventListener('keydown', e => {
+    if (e.key === 'Enter'){
+      const v = termInput.value;
+      termInput.value = '';
+      runCmd(v);
+    }
+  });
+
+  /* ============ ESC ============ */
+  document.addEventListener('keydown', e => {
+    if (e.key === 'Escape'){
+      if (reviewModal.classList.contains('active')) { reviewModal.classList.remove('active'); return; }
+      if (terminalUI.classList.contains('active')) { closeTerminal(); return; }
+      document.querySelectorAll('.sub-screen.active').forEach(s => s.classList.remove('active'));
+    }
+  });
+
+  /* ============ 3D TILT ============ */
+  const wrapper = document.getElementById('appWrapper');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (!reduceMotion){
+    let tx=0, ty=0, cx=0, cy=0;
+    document.addEventListener('mousemove', e => {
+      tx = (e.clientX - innerWidth/2)/40;
+      ty = (innerHeight/2 - e.clientY)/40;
+    });
+    window.addEventListener('deviceorientation', e => {
+      if (e.gamma !== null && e.beta !== null){
+        tx = Math.max(-12, Math.min(12, e.gamma))/1.5;
+        ty = Math.max(-12, Math.min(12, e.beta - 40))/1.5;
+      }
+    });
+    (function loop(){
+      cx += (tx - cx)*0.08;
+      cy += (ty - cy)*0.08;
+      wrapper.style.transform = `rotateY(${cx}deg) rotateX(${cy}deg)`;
+      requestAnimationFrame(loop);
+    })();
+  }
+
+  /* ============ INIT ============ */
+  applyLang();
+  renderSkills(); renderLangs(); renderProjects(); renderReviews();
+
+})();
+</script>
+</body>
+</html>
